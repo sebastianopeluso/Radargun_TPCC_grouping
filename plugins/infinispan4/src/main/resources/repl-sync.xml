@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:infinispan:config:4.0">
+    <global>
+        <globalJmxStatistics
+                enabled="true"
+                jmxDomain="org.infinispan"/>
+
+        <transport clusterName="x">
+            <properties>
+                <property name="configurationFile" value="jgroups/jgroups-udp.xml"/>
+            </properties>
+        </transport>
+    </global>
+
+    <default>
+
+        <deadlockDetection enabled="true"/>
+
+        <jmxStatistics enabled="true"/>
+
+        <transaction
+                transactionManagerLookupClass="org.infinispan.transaction.lookup.GenericTransactionManagerLookup"/>
+
+        <locking
+                isolationLevel="SERIALIZABLE"
+                lockAcquisitionTimeout="10000"
+                writeSkewCheck="false"
+                concurrencyLevel="500"
+                useLockStriping="false" />
+
+        <clustering mode="r">
+            <sync replTimeout="10000"/>
+            <replicasPolicy mode ="PC"/>
+            <stateRetrieval
+                    timeout="20000"
+                    fetchInMemoryState="false"
+                    alwaysProvideInMemoryState="false"
+                    />
+        </clustering>
+    </default>
+</infinispan>
